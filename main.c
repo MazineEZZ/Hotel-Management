@@ -3,10 +3,11 @@
 #define nmax 100
 #define charmax 50
 
+
 int main() {
     // To prevent garbage leftovers
     int chamNum[nmax] = {0}, chamType[nmax] = {0}, chamTarif[nmax] = {0}, chamEqui[nmax] = {0}, chamDispo[nmax] = {0};
-    int reserNum[nmax] = {0}, reserDate[nmax] = {0}, reserSejour[nmax] = {0}, reserNbrPerso[nmax] = {0}, reserNumCham[nmax] = {0};
+    int reserNum[nmax] = {0}, reserDate[nmax] = {0}, reserSejour[nmax] = {0}, reserNbrPerso[nmax] = {0}, reserNumCham[nmax] = {0}, reserClient[nmax] = {0};
     char cliNom[nmax][charmax] = {0}, cliPrenom[nmax][charmax] = {0}, cliAdresse[nmax][charmax] = {0};
     long cliCIN[nmax] = {0}, cliCordonnes[nmax] = {0};
 
@@ -20,7 +21,7 @@ int main() {
     chamType[0] = 1;
     chamTarif[0] = 1500;
     chamEqui[0] = 1;
-    chamDispo[0] = 2;
+    chamDispo[0] = 1;
 
     reserNum[0] = 100;
     reserDate[0] = 2512;
@@ -146,6 +147,7 @@ int main() {
                                 if ( chamNum[i] == num ) {
                                     curr = i;
                                     existe = 1;
+                                    break;
                                 }
                             }
                         } while (!existe);
@@ -157,13 +159,12 @@ int main() {
                             case 1:
                                 printf("Standard");
                                 break;
-                            case 2: 
+                            case 2:
                                 printf("Suite");
                                 break;
                             case 3:
                                 printf("Deluxe");
                                 break;
-
                         }
                         printf("\n");
 
@@ -275,10 +276,26 @@ int main() {
                             for (int i = 0; i < nmax; i++) {
                                 if (chamNum[i] == chamAssigne && chamDispo[i] == 1) {
                                     chamValide = 1;
+                                    break;
                                 }
                             }
                         } while (!chamValide);
                         reserNumCham[curr] = chamAssigne;
+
+                        int clientValide = 0, clientAssigne;
+                        do {
+                            printf("Veuillez saisir le CIN du client (en chiffres ex: 12345): \n");
+                            scanf("%d", &clientAssigne);
+
+                            for (int i = 0; i < nmax; i++) {
+                                if (cliCIN[i] == clientAssigne) {
+                                    clientValide = 1;
+                                    clientAssigne = i;
+                                    break;
+                                }
+                            }
+                        } while (!clientValide);
+                        reserClient[curr] = clientAssigne;
 
                         printf("Succes ! Reservation %d ajoutee. La chambre %d est maintenant occupee.\n", num, chamAssigne);
                         break;
@@ -305,6 +322,12 @@ int main() {
                         printf("Les dates de sejour: %d\n", reserSejour[curr]);
                         printf("Les nombre de personnes: %d\n", reserNbrPerso[curr]);
                         printf("Le numero de la chambre reservée: %d\n", reserNumCham[curr]);
+                        printf("Les infos du clients:\n");
+                        printf("CIN       : %d\n", cliCIN[reserClient[curr]]);
+                        printf("Nom       : %s\n", cliNom[reserClient[curr]]);
+                        printf("Prenom    : %s\n", cliPrenom[reserClient[curr]]);
+                        printf("Adresse   : %s\n", cliAdresse[reserClient[curr]]);
+                        printf("Telephone : %d\n", cliCordonnes[reserClient[curr]]);
                         break;
                     case 0:
                         retour = 1;
@@ -480,6 +503,12 @@ int main() {
                 }
                 printf("\n");
                 printf("La durée du sejour: %d\n", reserSejour[rCurr]);
+                printf("Les infos du clients:\n");
+                printf("CIN       : %d\n", cliCIN[reserClient[curr]]);
+                printf("Nom       : %s\n", cliNom[reserClient[curr]]);
+                printf("Prenom    : %s\n", cliPrenom[reserClient[curr]]);
+                printf("Adresse   : %s\n", cliAdresse[reserClient[curr]]);
+                printf("Telephone : %d\n", cliCordonnes[reserClient[curr]]);
                 printf("------------Le prix final %d-----------\n", prix);
 
                 int mode;
